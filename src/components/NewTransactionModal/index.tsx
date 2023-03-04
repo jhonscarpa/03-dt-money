@@ -11,6 +11,9 @@ import {
   TransactionTypeButton,
 } from './styles'
 
+import { useContext } from 'react'
+import { TransactionsContext } from '../../contexts/TransactionsContext'
+
 const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
@@ -21,11 +24,13 @@ const newTransactionFormSchema = z.object({
 type newTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
 
 export function NewTransactionModal() {
+  const { createTransaction } = useContext(TransactionsContext)
   const {
     control,
     register,
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = useForm<newTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
     defaultValues: {
@@ -33,7 +38,11 @@ export function NewTransactionModal() {
     },
   })
 
-  async function handleCreateNewTransaction(data: newTransactionFormInputs) {}
+  async function handleCreateNewTransaction(data: newTransactionFormInputs) {
+    const { category, description, price, type } = data
+    createTransaction({ category, description, price, type })
+    reset()
+  }
 
   return (
     <Dialog.Portal>
@@ -54,7 +63,9 @@ export function NewTransactionModal() {
               type="number"
               placeholder="Preço"
               required
-              {...(register('price'), { valueAsNumber: true })}
+              {...register('price', {
+                valueAsNumber: true,
+              })}
             />
             <input
               type="text"

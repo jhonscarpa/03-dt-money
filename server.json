@@ -15,6 +15,14 @@
       "category": "Alimentação",
       "price": 50,
       "createdAt": "2023-03-04T19:55:53.241Z"
+    },
+    {
+      "category": "contas",
+      "description": "aluguel",
+      "price": 800,
+      "type": "outcome",
+      "createdAt": "2023-03-04T19:27:26.540Z",
+      "id": 3
     }
   ]
 }
