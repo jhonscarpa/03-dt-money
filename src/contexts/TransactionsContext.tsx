@@ -10,6 +10,13 @@ interface IPropsTransactions {
   createdAt: string
 }
 
+interface IPropsCreateTransaction {
+  description: string
+  price: number
+  category: string
+  type: 'income' | 'outcome'
+}
+
 interface IPropsTransactionsContext {
   transactions: IPropsTransactions[]
   fetchTransactions: (query?: string) => Promise<void>
@@ -22,13 +29,6 @@ export const TransactionsContext = createContext<IPropsTransactionsContext>(
 
 interface IPropsTransactionsProvider {
   children: ReactNode
-}
-
-interface IPropsCreateTransaction {
-  description: string
-  price: number
-  category: string
-  type: 'income' | 'outcome'
 }
 
 export function TransactionsProvider({ children }: IPropsTransactionsProvider) {
@@ -55,7 +55,7 @@ export function TransactionsProvider({ children }: IPropsTransactionsProvider) {
       type,
       createdAt: new Date(),
     })
-    setTransactions(state => {
+    setTransactions((state) => {
       return [response.data, ...state]
     })
   }
